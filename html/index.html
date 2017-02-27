@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit"><!-- 360浏览器切换内核 webkit | ie-comp[IE6/7]? | ie-stand[IE8910]? -->
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"><!-- 手机头部设置 -->
+<meta name="description" content="" />
+<meta name="keywords" content=""  />
+<title>index</title>
+</head>
+<body>
+<form action="/common/upload.json" method="post" id="form" enctype="multipart/form-data">
+	<input type="text" name="name" value="" />
+	<select name="sex">
+		<option value="0">男</option>
+		<option value="1">女</option>
+	</select>
+	<input type="file" name="files1" id="file" />
+	<input type="file" name="files2" />
+	<button>提交</button>
+	<button id="fileUpload" type="button">上传</button>
+</form>
+<script type="text/javascript">
+;(function(){
+	var file = document.getElementById('file');
+	var form = document.getElementById('form');
+	var fileUpload = document.getElementById('fileUpload');
+
+	function creatAjax(){
+		try{
+			return new XMLHttpRequest();
+		}catch(e){
+			return new ActiveXObject('Microsoft.XMLHTTP');
+		};
+	};
+
+	function renderFile(file){
+		var fs = new FileReader();
+		return new Promise((resolve) => {
+			fs.onload = function(e){
+				resolve(e.target.result);
+			};
+			fs.readAsArrayBuffer(file);
+		});
+	};
+
+	function postData(fileBuffer){
+		var AJAX = creatAjax();
+
+		AJAX.onload = function(e){
+			console.log('onload', e);
+		};
+
+		AJAX.onerror = function(e){
+			console.log('error', e);
+		};
+
+		AJAX.onprogress = function(e){
+			console.log('progress', e);
+		};
+
+		AJAX.upload.onprogress = function(e){
+			console.log('upload, progress', e);
+		};
+
+		AJAX.open('POST', '/common/upload.json');
+
+		// AJAX.setRequestHeader('Content-type', 'multipart/form-data; boundary=----WebKitFormBoundaryWxjdfD9jMwK4tStT');
+
+		// var arr = [
+		// 	'------WebKitFormBoundaryWxjdfD9jMwK4tStT\r\n',
+		// 	'Content-Disposition: form-data; name="name"\r\n\r\n',
+		// 	'123567\r\n',
+		// 	'------WebKitFormBoundaryWxjdfD9jMwK4tStT\r\n',
+		// 	'Content-Disposition: form-data; name="files1"; filename="bbb.jpg"\r\n',
+		// 	'Content-Type: image/jpeg\r\n\r\n',
+		// 	fileBuffer,
+		// 	'------WebKitFormBoundaryWxjdfD9jMwK4tStT--'
+		// ];
+
+		// var blob = new Blob(arr);
+
+		var formData = new FormData(form);
+		
+		// console.log(formData);
+
+		AJAX.send(formData);
+	};
+
+	fileUpload.onclick = function(){
+
+		// renderFile(file.files[0]).then((fileBuffer) => {
+			postData();
+		// });
+
+	};
+
+
+})();
+</script>
+</body>
+</html>
