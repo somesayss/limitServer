@@ -128,7 +128,22 @@
 
 
 
-
+function p(){
+	return new Promise((s, j) => {
+		if(1){
+			s(1)
+		}else{
+			j(2)
+		};
+	});
+};
+return Promise.all([p(), p()]).then((val) => {
+		console.log(1231, val);
+	}, (err) => {
+		console.log(err);
+	}).catch(() => {
+		console.log(45);
+	});
 
 
 
