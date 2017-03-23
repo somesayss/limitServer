@@ -3,21 +3,22 @@
 // 依赖
 const limit = require('limit');
 
-const {SQL} = limit;
-
 class List {
-	constructor(request, response){
+	constructor(request, SQL){
 		let me = this;
 		me.baseInfo = request.baseInfo;
+		me.SQL = SQL;
 		return me.main();
 	}
 	main(){
 		let me = this;
 		let context = me.context = {};
 		let filterYear = me.getFilter();
+		let SQL = me.SQL;
 		return Promise.all([
-				SQL.querySuper('getCountByYear', filterYear), 
-				SQL.querySuper('getList', filterYear, me.getPage())]).then((val) => {
+					SQL.query( SQL.getCountByYear(filterYear) ), 
+					SQL.query( SQL.getList(filterYear, me.getPage() ) )
+				]).then((val) => {
 					context.count = val[0][0]['COUNT(*)'];
 					context.list = val[1];
 					return me;
