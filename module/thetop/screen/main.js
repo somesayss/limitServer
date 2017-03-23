@@ -1,11 +1,18 @@
 "use strict";
 
-class Test {
+class Thetop {
 	constructor(request){
-		this.header = null;
-		this.response = null;
-		this.context = {a: 'a2'};
+		let me = this;
+		me.request = request;
+		me.context = {};
+		me.getHost();
+	}
+	getHost(){
+		let me = this;
+		let headerInfo = me.request.headerInfo;
+		let host = headerInfo.host;
+		me.context.host = `http://${host.split(':')[0]}:3000`;
 	}
 };
 
-module.exports = Test;
+module.exports = Thetop;

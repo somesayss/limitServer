@@ -6,7 +6,7 @@ const server = require('limitServer');
 const socket = require('./socket');
 
 // 是否线上本地库
-const isOnline = true;
+const isOnline = false;
 
 // 启动服务
 server.http();
