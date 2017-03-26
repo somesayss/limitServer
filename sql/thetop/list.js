@@ -3,12 +3,12 @@
 // 依赖
 const theTop = {};
 
-theTop.getCountByYear = function(filterYear){
-	return `SELECT COUNT(*) FROM movie ${filterYear}`;
+theTop.getCountByYear = function(filter){
+	return `SELECT COUNT(*) FROM movie ${filter}`;
 };
 
-theTop.getList = function(filterYear, page){
-	return `SELECT * FROM movie ${filterYear} ORDER BY score DESC, id ASC limit ${page}`;
+theTop.getList = function(filter, page){
+	return `SELECT * FROM movie ${filter} ORDER BY score DESC, id ASC limit ${page}`;
 };
 
 module.exports = theTop;

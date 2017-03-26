@@ -13,11 +13,11 @@ class List {
 	main(){
 		let me = this;
 		let context = me.context = {};
-		let filterYear = me.getFilter();
+		let filter = me.getFilter();
 		let SQL = me.SQL;
 		return Promise.all([
-					SQL.query( SQL.getCountByYear(filterYear) ), 
-					SQL.query( SQL.getList(filterYear, me.getPage() ) )
+					SQL.query( SQL.getCountByYear(filter) ), 
+					SQL.query( SQL.getList(filter, me.getPage() ) )
 				]).then((val) => {
 					context.count = val[0][0]['COUNT(*)'];
 					context.list = val[1];
@@ -31,13 +31,34 @@ class List {
 	}
 	getFilter(){
 		let me = this;
+		let filterYear = me.getFilterYear();
+		let filterName = me.getFilterName();
+		let filterArr = [filterYear, filterName].filter((k) => k);
+		if( filterArr.length ){
+			return `WHERE ${filterArr.join(' AND ')}`;
+		}else{
+			return '';
+		};
+	}
+	getFilterYear(){
+		let me = this;
 		let {param} = me.baseInfo;
 		let filter = JSON.parse(param.filterMap);
 		let filterYear = filter['年份'].map((val) => {
 			return `year=${val}`;
-		});
-		if( filterYear.length ){
-			return `WHERE ${filterYear.join(' OR ')}`;
+		}).join(' OR ');
+		if( filterYear ){
+			return `(${filterYear})`;
+		}else{
+			return '';
+		};
+	}
+	getFilterName(){
+		let me = this;
+		let {param} = me.baseInfo;
+		let name = param.filterName;
+		if( name ){
+			return `name like "%${name}%"`;
 		}else{
 			return '';
 		};
