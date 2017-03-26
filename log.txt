@@ -22,7 +22,7 @@ ERR[2017-02-27 10:00:09]:SyntaxError: Unexpected token t in JSON at position 1
 ERR[2017-02-27 10:01:21]:SyntaxError: Unexpected token t in JSON at position 1
 ERR[2017-02-27 10:01:40]:SyntaxError: Unexpected token t in JSON at position 1
 ERR[2017-02-27 10:03:43]:SyntaxError: Unexpected token t in JSON at position 1
-ERR[2017-02-27 10:05:03]:SyntaxError: Unexpected token t in JSON at position 1
+ERR[2017-02-27 10:05:03]:SyntaxError: Unexpected token t in JSON at position :1
 ERR[2017-02-27 10:10:15]:SyntaxError: Unexpected token t in JSON at position 1
 ERR[2017-02-27 10:11:28]:SyntaxError: Unexpected token } in JSON at position 0
 ERR[2017-02-27 10:16:32]:SyntaxError: Unexpected token t in JSON at position 4
