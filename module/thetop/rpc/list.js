@@ -42,16 +42,9 @@ class List {
 	}
 	getFilterYear(){
 		let me = this;
-		let {param} = me.baseInfo;
-		let filter = JSON.parse(param.filterMap);
-		let filterYear = filter['年份'].map((val) => {
-			return `year=${val}`;
-		}).join(' OR ');
-		if( filterYear ){
-			return `(${filterYear})`;
-		}else{
-			return '';
-		};
+		let {SQL, baseInfo} = me;
+		let {param} = baseInfo;
+		return SQL.parseFilterMap(param.filterMap);
 	}
 	getFilterName(){
 		let me = this;
