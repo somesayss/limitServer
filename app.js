@@ -23,5 +23,5 @@ if( isOnline ){
 	    password: '123456'
 	});
 }else{
-	limit.createMySql({database: 'thetop'});
+	limit.createMySql({database: 'qrcode'});
 };

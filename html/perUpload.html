@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit"><!-- 360浏览器切换内核 webkit | ie-comp[IE6/7]? | ie-stand[IE8910]? -->
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1"><!-- 手机头部设置 -->
+<meta name="description" content="" />
+<meta name="keywords" content=""  />
+<title>perUpload</title>
+<style type="text/css">
+	*{
+		margin:0;padding:0;vertical-align:top;
+	}
+	textarea, input, select {
+	  outline: none;
+	}
+	.perUpload{
+		background:#F00;
+		position:absolute;
+		opacity:0.5;
+		width:100px;
+		height:100px;
+		overflow:hidden;
+	}
+	.perUpload input{
+		font-size:100px;
+		cursor:pointer;
+		opacity:0;
+	}
+</style>
+
+</head>
+<body style="padding:20px;">
+	<input type="button" value="上 传" id="upload" />
+	<!-- <form class="perUpload" action="/common/upload.json" method="post" id="form" enctype="multipart/form-data">
+		<input type="file" name="aaa" />
+	</form> -->
+<script type="text/javascript">
+;(function(WIN, DOC){
+	// 公用组件
+	var Util = window.Util = {};
+
+	// 循环
+	var each = Util.each = function(obj, iterator, context){
+		if( obj.length && obj.forEach ){
+			return obj.forEach(iterator, context)
+		}else{
+			for( var i in obj ){
+				if( obj.hasOwnProperty(i) ){
+					iterator.call(context, obj[i], i);
+				}
+			};
+		};
+	};
+
+	// 请求
+	var HTTP = Util.HTTP = function(config){
+		return new Promise(function(resolve, reject){
+			var CONFIG = Object.assign({
+				url: '',
+				data: '',
+				type: 'POST',
+				formData: false
+			}, config);
+			var REQUEST = new XMLHttpRequest();
+			REQUEST.open(CONFIG.type, CONFIG.url);
+			if( !CONFIG.formData ){
+				REQUEST.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			};
+			// 结束
+			REQUEST.onload = function(e){
+				var target = e.target;
+				if( target.status === 200 || target.status === 304 ){
+					resolve([target.responseText, e]);
+				}else{
+					reject([target.responseText, e]);
+				};
+			};
+			// 错误
+			REQUEST.onerror = reject;
+			REQUEST.send(CONFIG.data);
+		});
+	};
+
+	// AJAX
+	var AJAX = Util.AJAX = function(config){
+		var CONFIG = Object.assign({
+			data: {},
+		}, config);
+		var arr = [];
+		each(CONFIG.data, function(val, key){
+			if( typeof val === 'object' ){
+				val = JSON.stringify(val);
+			};
+			arr.push([key, val].join('='));
+		});
+		CONFIG.data = arr.join('&');
+		return HTTP(CONFIG);
+	};
+
+	// 创建表单和上传文件表单
+	var createUpload = Util.createUpload = function(config){
+		var CONFIG = Object.assign({
+			element: '',
+			uploadName: '',
+			data: {},
+			uploadUrl: '',
+			success: function(){},
+			error: function(){}
+		}, config);
+		var ELEMENT = CONFIG.element;
+		var FORM = document.createElement('form');
+		FORM.className = 'perUpload';
+		['Width', 'Height', 'Top', 'Left'].forEach(function(val){
+			FORM.style[val.toLocaleLowerCase()] = ELEMENT['offset' + val] + 'px';
+		});
+		var FILE = document.createElement('input');
+		FILE.type = 'file';
+		FILE.name = CONFIG.uploadName;
+		FORM.appendChild(FILE);
+		each(CONFIG.data, function(val, key){
+			var hideInput = document.createElement('input');
+			hideInput.type = 'hidden';
+			hideInput.name = key;
+			hideInput.value = val;
+			FORM.appendChild(hideInput);
+		});
+		DOC.body.appendChild(FORM);
+		FILE.onchange = function(){
+			if( FILE.value ){
+				HTTP({
+					url: CONFIG.uploadUrl,
+					data: new FormData(FORM),
+					formData: true
+				}).then(CONFIG.success, CONFIG.error);
+			};
+		};
+		return FORM;
+	};
+
+	var serialize = Util.serialize = function(form){
+		var input = null;
+		var obj = {};
+		for( var i = 0; i < form.length - 1; i++ ){
+			input = form[i];
+			obj[input.name] = input.value;
+		};
+		return obj
+	};
+
+})(window, document);
+</script>
+<script type="text/javascript">
+;(function(Util){
+
+	// 基本请求
+	// util.AJAX({
+	// 	url: '/common/upload.json',
+	// 	data: {a: {b: {c:'d'}}}
+	// }).then(function(){
+	// 	console.log(arguments, 'success');
+	// }, function(){
+	// 	console.log(arguments, 'error');
+	// });
+	
+	// 上传
+	// Util.createUpload({
+	// 	element: upload,
+	// 	uploadName: 'aaa',
+	// 	uploadUrl: '/common/upload.json',
+	// 	data: {a: 'a1', b: 'b1'},
+	// 	success: function(){
+	// 		console.log(arguments)
+	// 	}
+	// });
+
+
+
+})(Util);
+</script>
+</body>
+</html>

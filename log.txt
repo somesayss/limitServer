@@ -1,1 +1,4 @@
-ERR[2017-03-26 22:06:49]:123
+ERR[2017-05-05 14:16:30]:TypeError: The header content contains invalid characters
+ERR[2017-05-05 14:17:20]:TypeError: The header content contains invalid characters
+ERR[2017-05-05 14:19:20]:TypeError: The header content contains invalid characters
+ERR[2017-05-05 14:19:22]:TypeError: The header content contains invalid characters

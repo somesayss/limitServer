@@ -17,7 +17,7 @@
 		<option value="1">女</option>
 	</select>
 	<input type="file" name="files1" id="file" />
-	<input type="file" name="files2" />
+	<input type="file" name="files2" multiple="multiple" />
 	<button>提交</button>
 	<button id="fileUpload" type="button">上传</button>
 </form>
@@ -67,7 +67,9 @@
 		AJAX.open('POST', '/common/upload.json');
 
 		// AJAX.setRequestHeader('Content-type', 'multipart/form-data; boundary=----WebKitFormBoundaryWxjdfD9jMwK4tStT');
-
+		// AJAX.setRequestHeader('Content-type', 'multipart/form-data; boundary=----WebKitFormBoundaryWxjdfD9jMwK4tStT');
+		
+		
 		// var arr = [
 		// 	'------WebKitFormBoundaryWxjdfD9jMwK4tStT\r\n',
 		// 	'Content-Disposition: form-data; name="name"\r\n\r\n',

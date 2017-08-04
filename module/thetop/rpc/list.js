@@ -33,7 +33,8 @@ class List {
 		let me = this;
 		let filterYear = me.getFilterYear();
 		let filterName = me.getFilterName();
-		let filterArr = [filterYear, filterName].filter((k) => k);
+		let filterId = me.getFilterId();
+		let filterArr = [filterYear, filterName, filterId].filter((k) => k);
 		if( filterArr.length ){
 			return `WHERE ${filterArr.join(' AND ')}`;
 		}else{
@@ -52,6 +53,16 @@ class List {
 		let name = param.filterName;
 		if( name ){
 			return `name like "%${name}%"`;
+		}else{
+			return '';
+		};
+	}
+	getFilterId(){
+		let me = this;
+		let {param} = me.baseInfo;
+		let id = param.filterId;
+		if( id ){
+			return `id = ${id}`;
 		}else{
 			return '';
 		};

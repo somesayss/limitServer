@@ -4,7 +4,7 @@ class Thetop {
 	constructor(request){
 		let me = this;
 		me.request = request;
-		me.context = {};
+		me.context = {title: '我的排行榜'};
 		me.getHost();
 	}
 	getHost(){

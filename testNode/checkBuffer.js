@@ -107,13 +107,37 @@ const fs = require('fs');
 	};
 	// showBuffer();
 
-	function bijiaoBuffer(){
+	function bijiaoBuffer(){	
 		let buf1 = [0xc1, 0x87, 0x7e, 0xc7, 0x89, 0xd6, 0xd4, 0x0f, 0x25, 0xd6, 0x3d, 0xc7, 0x89];
 		let str1 = 'xixi';
 		// console.log( new Buffer(buf1).slice(6) );
 		console.log( new Buffer([0x03, 0xe9]).toString() );
 	};
-	bijiaoBuffer();
+	// bijiaoBuffer();
+
+// 测试buffer base64
+	function testBase64(){
+		// let buf
+		fs.readFile('./cc.png', 'base64',(err, file) => {
+			console.log(file);
+		});
+	};
+	testBase64();	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
